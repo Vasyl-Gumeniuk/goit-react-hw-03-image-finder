@@ -1,0 +1,7 @@
+.wrapper {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  width: 300;
+  margin-left: 50px;
+}
