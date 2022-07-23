@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Notiflix from 'notiflix';
 import fetchImages from '../../api/api';
 import ImageGalleryList from './ImageGalleryList/ImageGalleryList';
@@ -11,6 +11,7 @@ Notiflix.Notify.init({
   position: 'right-top',
   width: '400px',
   fontSize: '20px',
+  timeout: 3000,
 });
 
 export class ImageGallery extends Component {
@@ -21,6 +22,7 @@ export class ImageGallery extends Component {
     status: 'idle',
     modalImageUrl: '',
     showModal: false,
+    activeBtn: false,
   };
 
   componentDidUpdate = prevProps => {
@@ -37,11 +39,19 @@ export class ImageGallery extends Component {
             Notiflix.Notify.failure(
               'Sorry, there are no images matching your search query. Please try again.'
             );
-            this.setState({ status: 'idle' });
+            this.setState({
+              status: 'idle',
+              imagesList: null,
+            });
             return;
           }
-          Notiflix.Notify.success(`Good, there are ${res.totalHits} results`);
-          this.setState({ imagesList: res.hits, page: 2, status: 'resolved' });
+          Notiflix.Notify.success(`Good, there are ${res.totalHits} results.`);
+          this.setState({
+            imagesList: res.hits,
+            page: 2,
+            status: 'resolved',
+            activeBtn: false,
+          });
         });
       } catch (error) {
         this.setState({ error });
@@ -53,23 +63,29 @@ export class ImageGallery extends Component {
     const { page } = this.state;
     const searchValue = this.props.searchValue;
 
-    this.setState({ status: 'pending' });
+    this.setState({
+      status: 'pending',
+      activeBtn: true,
+    });
 
     try {
       fetchImages(searchValue, page).then(res => {
         if (page > res.totalHits / 12) {
-          Notiflix.Notify.failure(
-            'We are sorry, but you have reached the end of search results'
+          Notiflix.Notify.warning(
+            'We are sorry, but you have reached the end of search results.'
           );
-          this.setState({ status: 'idle' });
+          this.setState({
+            status: 'idle',
+            activeBtn: true,
+          });
           return;
         }
-        // if (res.hits)
 
         this.setState(prevState => ({
           imagesList: [...prevState.imagesList, ...res.hits],
           page: prevState.page + 1,
           status: 'resolved',
+          activeBtn: false,
         }));
       });
     } catch (error) {
@@ -89,7 +105,8 @@ export class ImageGallery extends Component {
   };
 
   render() {
-    const { imagesList, status, showModal, modalImageUrl } = this.state;
+    const { imagesList, status, showModal, modalImageUrl, activeBtn } =
+      this.state;
 
     if (status === 'pending') {
       Loading.dots();
@@ -104,7 +121,7 @@ export class ImageGallery extends Component {
             imagesList={imagesList}
             setInfoForModal={this.setInfoForModal}
           />
-          <Button onBtnClick={this.onBtnClick} />
+          <Button onBtnClick={this.onBtnClick} disabled={activeBtn} />
           {showModal && (
             <Modal onClose={this.toggleModal} largeImageURL={modalImageUrl} />
           )}
@@ -113,3 +130,7 @@ export class ImageGallery extends Component {
     }
   }
 }
+
+ImageGallery.propTypes = {
+  searchValue: PropTypes.string.isRequired,
+};

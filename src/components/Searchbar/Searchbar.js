@@ -24,7 +24,7 @@ export class Searchbar extends Component {
     evt.preventDefault();
     const { inputValue } = this.state;
     if (inputValue.trim() === '') {
-      Notiflix.Notify.info('Please enter request');
+      Notiflix.Notify.info('Please enter request.');
       return;
     }
 

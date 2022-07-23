@@ -1,14 +1,16 @@
+import PropTypes from 'prop-types';
 import ImageGalleryItem from '../../ImageGalleryItem/ImageGalleryItem';
 import styles from './styles.module.css';
 
 const ImageGalleryList = ({ imagesList, setInfoForModal }) => {
   return (
     <ul className={styles.gallery}>
-      {imagesList.map(({ id, webformatURL, largeImageURL }) => {
+      {imagesList.map(({ id, tags, webformatURL, largeImageURL }, index) => {
         return (
           <ImageGalleryItem
             setInfoForModal={setInfoForModal}
-            key={id}
+            key={index}
+            tag={tags}
             id={id}
             webformatURL={webformatURL}
             largeImageURL={largeImageURL}
@@ -17,6 +19,11 @@ const ImageGalleryList = ({ imagesList, setInfoForModal }) => {
       })}
     </ul>
   );
+};
+
+ImageGalleryList.propTypes = {
+  imagesList: PropTypes.arrayOf(PropTypes.shape()),
+  setInfoForModal: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryList;

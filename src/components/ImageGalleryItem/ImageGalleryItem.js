@@ -1,9 +1,10 @@
-// import { Modal } from '../Modal/Modal';
+import PropTypes from 'prop-types';
 import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import styles from './styles.module.css';
 
 const ImageGalleryItem = ({
   id,
+  tag,
   webformatURL,
   largeImageURL,
   setInfoForModal,
@@ -16,10 +17,18 @@ const ImageGalleryItem = ({
   };
 
   return (
-    <li key={id} id={id} className={styles.gallery_item} onClick={handleClick}>
-      <img className={styles.gallery_image} src={webformatURL} alt="" />
+    <li id={id} className={styles.gallery_item} onClick={handleClick}>
+      <img className={styles.gallery_image} src={webformatURL} alt={tag} />
     </li>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  setInfoForModal: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+  tag: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
 };
 
 export default ImageGalleryItem;
