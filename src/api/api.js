@@ -13,8 +13,6 @@ export async function fetchImages(searchValue, page) {
 
   const response = await axios.get(URL);
   const responseFormat = await response.data;
-  console.log(URL);
-  console.log(responseFormat);
   return responseFormat;
 }
 

@@ -22,7 +22,7 @@ const ImageGalleryList = ({ imagesList, setInfoForModal }) => {
 };
 
 ImageGalleryList.propTypes = {
-  imagesList: PropTypes.arrayOf(PropTypes.shape()),
+  imagesList: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   setInfoForModal: PropTypes.func.isRequired,
 };
 

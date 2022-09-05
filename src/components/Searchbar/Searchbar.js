@@ -31,13 +31,6 @@ export class Searchbar extends Component {
     let inputData = inputValue;
 
     this.props.onSubmit(inputData);
-    this.resetForm();
-  };
-
-  resetForm = () => {
-    this.setState({
-      inputValue: '',
-    });
   };
 
   render() {
