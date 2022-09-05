@@ -112,7 +112,6 @@ export class App extends Component {
 
   render() {
     const {
-      searchValue,
       imagesList,
       totalHits,
       status,
@@ -125,7 +124,6 @@ export class App extends Component {
       <div>
         <Searchbar onSubmit={this.addSearchValue} />
         <ImageGallery
-          searchValue={searchValue}
           imagesList={imagesList}
           status={status}
           modalImageUrl={modalImageUrl}

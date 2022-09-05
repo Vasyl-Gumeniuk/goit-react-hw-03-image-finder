@@ -34,7 +34,6 @@ export const ImageGallery = ({
 };
 
 ImageGallery.propTypes = {
-  searchValue: PropTypes.string.isRequired,
   imagesList: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   status: PropTypes.string.isRequired,
   modalImageUrl: PropTypes.string.isRequired,
