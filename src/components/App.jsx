@@ -26,6 +26,10 @@ export class App extends Component {
   };
 
   addSearchValue = inputData => {
+    const { searchValue } = this.state;
+    if (searchValue === inputData) {
+      return;
+    }
     this.setState({
       searchValue: inputData,
     });
